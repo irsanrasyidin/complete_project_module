@@ -1,8 +1,8 @@
 package repositories
 
 import (
-	"module/models"
-	"module/utils"
+	"github.com/irsanrasyidin/complete_project/module/models"
+    "github.com/irsanrasyidin/complete_project/module/utils"
 
 	"gorm.io/gorm"
 )

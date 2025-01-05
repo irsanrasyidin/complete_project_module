@@ -1,4 +1,4 @@
-module module
+module github.com/irsanrasyidin/complete_project/module
 
 go 1.20
 
