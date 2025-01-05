@@ -1,8 +1,8 @@
 package repositories
 
 import (
-	"module/models"
-	"module/utils"
+	"github.com/irsanrasyidin/complete_project/module/models"
+    "github.com/irsanrasyidin/complete_project/module/utils"
 
 	"gorm.io/gorm"
 )
@@ -35,7 +35,7 @@ func (usrRepo *UserRepoImpl) InsertUser(lgc *models.UserModel, password string) 
 	}
 
 	credential := &models.UserCredential{
-		ID:       lgc.ID, 
+		ID:       lgc.ID,
 		Username: lgc.Username,
 		Password: password,
 	}
