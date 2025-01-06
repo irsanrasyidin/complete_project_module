@@ -1,4 +1,4 @@
-module github.com/irsanrasyidin/complete_project/module
+module github.com/irsanrasyidin/complete_project_module
 
 go 1.23.4
 
