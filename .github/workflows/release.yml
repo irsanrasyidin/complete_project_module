@@ -1,0 +1,37 @@
+name: Create Release on Merge to Main
+
+on:
+  push:
+    branches:
+      - main  # Trigger saat push ke main (termasuk merge request)
+
+jobs:
+  create_release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get latest tag
+        id: get_tag
+        run: echo "TAG_NAME=$(date +'%Y.%m.%d-%H%M%S')" >> $GITHUB_ENV
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+
+      - name: Create new tag
+        run: |
+          git tag ${{ env.TAG_NAME }}
+          git push origin ${{ env.TAG_NAME }}
+
+      - name: Create GitHub Release with Notes
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.TAG_NAME }}
+          name: Release ${{ env.TAG_NAME }}
+          generate_release_notes: true
+          draft: false
+          prerelease: false
