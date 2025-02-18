@@ -134,33 +134,33 @@ jobs:
           draft: false
           prerelease: false
 
-  deploy:
-    name: Build and Push Docker Image
-    runs-on: ubuntu-latest
-    needs: create_release
-    if: ${{ needs.create_release.result == 'success' }}
-    permissions:
-      packages: write
+  # deploy:
+  #   name: Build and Push Docker Image
+  #   runs-on: ubuntu-latest
+  #   needs: create_release
+  #   if: ${{ needs.create_release.result == 'success' }}
+  #   permissions:
+  #     packages: write
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v4
+  #       with:
+  #         fetch-depth: 0
 
-      - name: Debug - Print Repository
-        run: | 
-          echo "Repository: ${{ github.repository }}"
+  #     - name: Debug - Print Repository
+  #       run: | 
+  #         echo "Repository: ${{ github.repository }}"
 
-      - name: Get latest tag (from create_release job)
-        id: get_tag
-        run: echo "TAG_NAME=${{ needs.create_release.outputs.release_tag }}" >> $GITHUB_ENV
+  #     - name: Get latest tag (from create_release job)
+  #       id: get_tag
+  #       run: echo "TAG_NAME=${{ needs.create_release.outputs.release_tag }}" >> $GITHUB_ENV
 
-      - name: Login to GitHub Container Registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
+  #     - name: Login to GitHub Container Registry
+  #       run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
 
-      - name: Build Docker Image
-        run: docker build -t ghcr.io/${{ github.repository }}:${{ env.NEW_TAG }} .
+  #     - name: Build Docker Image
+  #       run: docker build -t ghcr.io/${{ github.repository }}:${{ env.NEW_TAG }} .
 
-      - name: Push Docker Image
-        run: docker push ghcr.io/${{ github.repository }}:${{ env.NEW_TAG }}
+  #     - name: Push Docker Image
+  #       run: docker push ghcr.io/${{ github.repository }}:${{ env.NEW_TAG }}
