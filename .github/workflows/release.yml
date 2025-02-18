@@ -9,9 +9,13 @@ jobs:
   create_release:
     name: Create GitHub Release
     runs-on: ubuntu-latest
+    permissions: write-all  # Tambahkan ini agar bisa push tag
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false  # Pastikan tidak menggunakan default credentials
 
       - name: Get latest tag
         id: get_tag
@@ -21,6 +25,10 @@ jobs:
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
+
+      - name: Authenticate with GitHub Token
+        run: |
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
 
       - name: Create new tag
         run: |
