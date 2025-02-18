@@ -30,10 +30,11 @@ jobs:
       - name: Cache Go modules
         uses: actions/cache@v3
         with:
-          path: ~/go/pkg/mod
-          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-          restore-keys: |
-            ${{ runner.os }}-go-
+            path: ~/go/pkg/mod
+            key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}-${{ github.run_id }}
+            restore-keys: |
+                ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}-
+                ${{ runner.os }}-go-
 
       - name: Install dependencies
         run: go mod tidy
