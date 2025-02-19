@@ -94,3 +94,4 @@ func (usrRepo *UserRepoImpl) DeleteUserById(id string) error {
 func NewUserRepo() UserRepo {
 	return &UserRepoImpl{}
 }
+
