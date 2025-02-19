@@ -1,11 +1,7 @@
-name: Create Release on Merge to Main
+name: Test, Release, and Deploy
 
 on:
-  push:
-    branches:
-      - main
-  workflow_dispatch: 
-
+  workflow_dispatch:
     inputs:
       version_bump:
         description: 'Type of version bump (major, minor, patch)'
@@ -15,6 +11,9 @@ on:
           - major
           - minor
           - patch
+  push: 
+    branches:
+      - main
 
 jobs:
   test:
