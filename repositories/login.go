@@ -1,3 +1,5 @@
+//go:generate mockgen -source=login.go -destination=mocks/login_mock.go LoginRepo
+
 package repositories
 
 import (

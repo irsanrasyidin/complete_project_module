@@ -1,9 +1,9 @@
 name: Run Tests with Caching
 
 on:
-  pull_request:
+  push:
     branches:
-      - main
+      - DEV
 
 jobs:
   test:
@@ -31,6 +31,12 @@ jobs:
 
       - name: Install dependencies
         run: go mod tidy
+
+      - name: Install Mockgen
+        run: go install github.com/golang/mock/mockgen@latest
+
+      - name: Generate Code (Mocks)
+        run: go generate ./...
 
       - name: Run tests
         run: go test -v ./...
