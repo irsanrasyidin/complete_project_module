@@ -52,6 +52,8 @@ module/
 |   `-- exception.go
 |-- response/
 |   `-- api_response.go
+|-- sso/
+|   `-- context.go
 |-- models/
 |-- repositories/
 `-- utils/
@@ -198,7 +200,7 @@ Jika desain Redis dan Kafka mulai diimplementasikan, dependensi yang mungkin dit
 Import package dari path modul ini:
 
 ```go
-github.com/irsanrasyidin/complete_project/module
+github.com/irsanrasyidin/complete_project_module
 ```
 
 Contoh package yang tersedia:
@@ -217,6 +219,7 @@ Contoh package yang dirancang:
 - `module/bootstrap`
 - `module/exception`
 - `module/response`
+- `module/sso`
 
 ## Desain Response API
 
@@ -261,6 +264,52 @@ Code yang tersedia:
 - `UNPROCESSABLE_ENTITY`
 
 `response.NewExceptionErrorResponse` akan menyembunyikan detail error internal jika code adalah `INTERNAL`, tetapi tetap mengirim detail public untuk error non-internal.
+
+## Desain SSO Context
+
+Package `module/sso` menyimpan helper context untuk metadata request, audit info, dan identitas user.
+
+Header SSO yang distandarkan:
+
+- `X-Correlation-ID`
+- `X-Sso-Tenantcode`
+- `X-Sso-Username`
+- `X-Real-Ip`
+- `X-Forwarded-For`
+- `X-Sso-Roles`
+- `X-Origin-Url`
+- `X-Sso-Tokenid`
+- `X-Sso-Salescode`
+- `X-Sso-Branch`
+
+Helper request metadata:
+
+- `AuditInfoFromHeader`
+- `SetAuditInfo` / `AuditInfoFromContext`
+- `ContextWithAuditInfoFromHeader`
+- `SetCorrelationID` / `GetCorrelationID`
+- `SetTenantCode` / `GetTenantCode`
+- `SetRealIP` / `GetRealIP`
+- `SetUserName` / `GetUserName`
+- `SetOriginURL` / `GetOriginURL`
+- `SetRolesRaw` / `GetRolesRaw`
+- `SetTokenID` / `GetTokenID`
+- `SetSalesCode` / `GetSalesCode`
+- `SetBranch` / `GetBranch`
+- `SetRequestID` / `GetRequestID`
+- `SetRequestIP` / `GetRequestIP`
+- `SetHost` / `GetHost`
+- `SetBaseURL` / `GetBaseURL`
+- `SetLang` / `GetLang`
+- `SetContextProcess` / `GetContextProcess`
+
+Helper identity:
+
+- `SetIdentity` / `GetIdentity`
+- `SetUserID` / `GetUserID`
+- `SetUsername` / `GetUsername`
+- `SetEmail` / `GetEmail`
+- `SetRoles` / `GetRoles`
 
 ## Catatan
 

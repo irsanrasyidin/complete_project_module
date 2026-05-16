@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/irsanrasyidin/complete_project/module/models"
+	"github.com/irsanrasyidin/complete_project_module/models"
 	"gorm.io/gorm"
 )
 
@@ -135,10 +135,10 @@ func (r *repository) GetMasterData(ctx context.Context) (models.MasterData, erro
 		return models.MasterData{}, err
 	}
 	return models.MasterData{
-		Wallets:          wallets,
-		IncomeCategories: income,
+		Wallets:           wallets,
+		IncomeCategories:  income,
 		ExpenseCategories: expense,
-		Rules:            rules,
+		Rules:             rules,
 	}, nil
 }
 
