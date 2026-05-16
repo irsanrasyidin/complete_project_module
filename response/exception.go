@@ -1,6 +1,6 @@
 package response
 
-import "github.com/irsanrasyidin/complete_project/module/exception"
+import "github.com/irsanrasyidin/complete_project_module/exception"
 
 type JSONAborter interface {
 	AbortWithStatusJSON(code int, jsonObj any)

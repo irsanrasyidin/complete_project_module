@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/irsanrasyidin/complete_project/module/exception"
+	"github.com/irsanrasyidin/complete_project_module/exception"
 )
 
 func TestSuccess(t *testing.T) {

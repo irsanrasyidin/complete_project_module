@@ -60,6 +60,8 @@ module/
 |   `-- exception.go
 |-- response/
 |   `-- api_response.go
+|-- sso/
+|   `-- context.go
 |-- codec/
 |   |-- base64.go
 |   |-- json.go
@@ -101,7 +103,7 @@ backend application
    v
 module reusable packages
    |-- bootstrap/config/database/cache/messaging
-   |-- response/exception/parser/codec/hash/ptr/errors/validate
+   |-- response/exception/sso/parser/codec/hash/ptr/errors/validate
    |-- repositories/models
    |
    v
@@ -503,6 +505,66 @@ type Exception struct {
 ```
 
 Implementation boleh menyimpan internal error dan detail public sebagai field private. Response helper harus menyembunyikan detail internal ketika code adalah `INTERNAL`.
+
+## Desain SSO Context
+
+Package yang disarankan:
+
+```text
+module/sso
+```
+
+Package ini menggantikan helper lama `contextutils`. Tujuannya adalah menyimpan metadata request, audit info, dan identitas user dari proses authentication/SSO di dalam `context.Context`.
+
+Header SSO standar:
+
+- `X-Correlation-ID`
+- `X-Sso-Tenantcode`
+- `X-Sso-Username`
+- `X-Real-Ip`
+- `X-Forwarded-For`
+- `X-Sso-Roles`
+- `X-Origin-Url`
+- `X-Sso-Tokenid`
+- `X-Sso-Salescode`
+- `X-Sso-Branch`
+
+Data request metadata:
+
+- request ID
+- request IP
+- host
+- base URL
+- language
+- context process
+
+Data identity:
+
+- user ID
+- username
+- email
+- roles
+
+Contoh pemakaian:
+
+```go
+ctx := sso.ContextWithAuditInfoFromHeader(r.Context(), r.Header)
+auditInfo := sso.AuditInfoFromContext(ctx)
+
+req.AuditInfo = &modelv3.AuditInfo{
+	CorrelationID: auditInfo.CorrelationID,
+	TenantCode:    auditInfo.TenantCode,
+	RealIp:        auditInfo.RealIP,
+	UserName:      auditInfo.UserName,
+	OriginURL:     auditInfo.OriginURL,
+	Roles:         auditInfo.Roles,
+	TokenID:       auditInfo.TokenID,
+	SalesCode:     auditInfo.SalesCode,
+	Branch:        auditInfo.Branch,
+}
+```
+
+Context key harus typed/private supaya tidak collision dengan package lain.
 
 ## Utility Wajib
 
